@@ -36,6 +36,167 @@ La configuración paralela se realiza para considerar las restricciones mecánic
 
 Palabras clave: Sistema musculoesqueletico; Circuito RC; Controlador PI; Modelo matematico; Simulaciones numericas 
 
+## Formulación matemática y análisis por superposición
+
+Se aplica el principio de superposición para determinar la contribución de cada fuente. Se representa la fuerza de salida mediante **Fₛ(t)** y sus contribuciones mediante **Fₛ₁(t)** y **Fₛ₂(t)**.
+
+### Circuito 1: apagando F₀(t)
+
+Se considera únicamente la excitación F(t). Se parte de la suma de dos componentes de desplazamiento:
+
+$$
+x(t)=x_1(t)+x_2(t).
+$$
+
+Para las ramas equivalentes se escriben:
+
+$$
+x(t)=C_p\frac{dF_{s1}(t)}{dt},
+$$
+
+$$
+x_1(t)=C_s\frac{d[F(t)-F_{s1}(t)]}{dt},
+$$
+
+$$
+x_2(t)=\frac{F(t)-F_{s1}(t)}{R}.
+$$
+
+Sustituyendo en la ecuación inicial:
+
+$$
+C_p\frac{dF_{s1}(t)}{dt}
+=C_s\frac{d[F(t)-F_{s1}(t)]}{dt}
++\frac{F(t)-F_{s1}(t)}{R}.
+$$
+
+Con condiciones iniciales nulas, la transformada de Laplace produce:
+
+$$
+C_p sF_{s1}(s)=C_s sF(s)-C_s sF_{s1}(s)
++\frac{F(s)-F_{s1}(s)}{R}.
+$$
+
+Agrupando los términos de salida:
+
+$$
+\left[(C_p+C_s)s+\frac{1}{R}\right]F_{s1}(s)
+=\left(C_s s+\frac{1}{R}\right)F(s).
+$$
+
+Multiplicando por R y despejando:
+
+$$
+\frac{F_{s1}(s)}{F(s)}=
+\frac{RC_s s+1}{R(C_p+C_s)s+1}.
+$$
+
+### Circuito 2: apagando F(t)
+
+Se conserva la contribución de la fuente **F₀(t)=αF(t)**. El balance de la rama queda:
+
+$$
+-\alpha F(t)=R x(t)+\frac{1}{C_p+C_s}\int x(t)\,dt.
+$$
+
+Aplicando Laplace con condiciones iniciales nulas:
+
+$$
+-\alpha F(s)=R X(s)+\frac{X(s)}{(C_p+C_s)s}.
+$$
+
+De aquí:
+
+$$
+X(s)=-\alpha F(s)\frac{(C_p+C_s)s}{R(C_p+C_s)s+1}.
+$$
+
+La relación entre el desplazamiento y la fuerza de salida de la rama es:
+
+$$
+F_{s2}(s)=\frac{X(s)}{(C_p+C_s)s}.
+$$
+
+Por tanto:
+
+$$
+\frac{F_{s2}(s)}{F(s)}=
+-\frac{\alpha}{R(C_p+C_s)s+1}.
+$$
+
+### Suma de las contribuciones
+
+Por superposición:
+
+$$
+F_s(s)=F_{s1}(s)+F_{s2}(s).
+$$
+
+Sustituyendo ambas expresiones:
+
+$$
+F_s(s)=\left[\frac{RC_s s+1}{R(C_p+C_s)s+1}
+-\frac{\alpha}{R(C_p+C_s)s+1}\right]F(s).
+$$
+
+La función de transferencia resultante es:
+
+$$
+H(s)=\frac{F_s(s)}{F(s)}=
+\frac{RC_s s+1-\alpha}{R(C_p+C_s)s+1}.
+$$
+
+**Nota:** esta función relaciona la fuerza de salida con la fuerza de entrada. Si se selecciona el desplazamiento como salida, debe obtenerse por separado la relación G(s)=X(s)/F(s).
+
+## Función de transferencia y alcance de la salida
+
+La función obtenida mediante superposición es de **primer orden**:
+
+$$
+H(s)=\frac{RC_s s+1-\alpha}{R(C_p+C_s)s+1}.
+$$
+
+Sustituyendo los parámetros del instructivo en unidades eléctricas:
+
+**Control sano (R = 100 Ω):**
+
+$$
+H_{control}(s)=\frac{0.001s+0.75}{0.011s+1}.
+$$
+
+**Caso de atrofia simulada (R = 10 000 Ω):**
+
+$$
+H_{caso}(s)=\frac{0.1s+0.75}{1.1s+1}.
+$$
+
+Las expresiones anteriores representan la transferencia de fuerza H(s). Para estudiar el desplazamiento debe establecerse la relación G(s)=X(s)/F(s) de acuerdo con la variable de salida seleccionada.
+
+## Análisis de estabilidad
+
+El polo de la función de transferencia desarrollada es:
+
+$$
+p=-\frac{1}{R(C_p+C_s)}.
+$$
+
+| Modelo | Denominador | Polo (s⁻¹) | Constante de tiempo |
+|---|---|---:|---:|
+| Control | 0.011s + 1 | −90.9091 | 0.011 s |
+| Caso | 1.1s + 1 | −0.9091 | 1.1 s |
+
+Ambos polos son reales y negativos: **ambas funciones son estables**. El polo del caso está más próximo al origen, por lo que su respuesta asociada a esta función de transferencia decae más lentamente. La constante de tiempo del caso es 100 veces la del control. Este resultado se deduce del modelo matemático y debe comprobarse con las simulaciones.
+
+## Análisis de estado estacionario
+
+Para una entrada escalón unitario y suponiendo estabilidad, el teorema del valor final proporciona:
+
+$$
+\lim_{t\to\infty}F_s(t)=\lim_{s\to0}H(s)=1-\alpha=0.75.
+$$
+
+En consecuencia, para **la salida de fuerza H(s)**, ambos modelos tienen la misma ganancia estática de 0.75. Si el error se define entre la entrada escalón unitario y esa salida, el error estacionario es **1 − 0.75 = 0.25**. En cambio, si se define como diferencia entre las salidas de control y caso ante el mismo escalón, el error estacionario entre ambas es **0**. Estos resultados no deben extrapolarse automáticamente a una salida de desplazamiento G(s) ni a la respuesta al impulso, que son análisis distintos.
+
 ## Lista de archivos incluidos en el repositorio
 
 1. Cuaderno computacional de MATLAB \[.mlx].
