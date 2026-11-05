@@ -197,6 +197,56 @@ $$
 
 En consecuencia, para **la salida de fuerza H(s)**, ambos modelos tienen la misma ganancia estática de 0.75. Si el error se define entre la entrada escalón unitario y esa salida, el error estacionario es **1 − 0.75 = 0.25**. En cambio, si se define como diferencia entre las salidas de control y caso ante el mismo escalón, el error estacionario entre ambas es **0**. Estos resultados no deben extrapolarse automáticamente a una salida de desplazamiento G(s) ni a la respuesta al impulso, que son análisis distintos.
 
+## Diseño del controlador PID
+
+El modelo del individuo sano se utiliza como referencia. Para la salida de desplazamiento indicada en el instructivo, el error es:
+
+$$
+e(t)=x_{control}(t)-x_{caso}(t).
+$$
+
+El controlador PID ideal puede expresarse como:
+
+$$
+u(t)=k_Pe(t)+k_I\int_0^t e(\tau)\,d\tau+k_D\frac{de(t)}{dt}.
+$$
+
+Se debe incorporar el bloque **PID Controller** en Simulink y utilizar **Tune** para determinar **kP**, **kI** y **kD**. El objetivo es una respuesta estable que reduzca la diferencia entre el caso simulado y el control sano. Después se comparan las tres respuestas: **control**, **caso sin controlador** y **caso con PID**.
+
+| Parámetro | Valor obtenido |
+|---|---|
+| kP | Pendiente de sintonización |
+| kI | Pendiente de sintonización |
+| kD | Pendiente de sintonización |
+
+No se asignan ganancias ficticias ni se afirma un desempeño que todavía no esté respaldado por resultados.
+
+## Implementación en Python
+
+Se deben implementar las funciones de transferencia del control y del caso con las mismas condiciones que MATLAB/Simulink, calcular la respuesta al impulso y reproducir el sistema con las ganancias PID obtenidas en **Tune**. El código puede ejecutarse en Visual Studio Code y debe guardar figuras para comparar lazo abierto y lazo cerrado. Las librerías dependen del archivo Python efectivamente utilizado; normalmente pueden emplearse NumPy, Matplotlib y `python-control`.
+
+## Resultados y verificación cruzada
+
+La verificación requiere comparar cinco implementaciones: ecuaciones en Simulink, función de transferencia en Simulink, circuito equivalente en Simscape, cuaderno MATLAB y script Python. Las respuestas deben compararse con parámetros, entrada, salida y condiciones iniciales iguales.
+
+| Resultado | Estado |
+|---|---|
+| Parámetros control/caso | Identificados en el instructivo |
+| Análisis por superposición | Desarrollado a partir de `analisis.pdf` |
+| Funciones Hcontrol y Hcaso | Calculadas |
+| Polos y estabilidad de H(s) | Calculados |
+| Estado estacionario de H(s) | Calculado |
+| Simulaciones en MATLAB/Simulink | Agregar resultados reales |
+| Simscape Electrical | Agregar circuito y resultados |
+| Ganancias PID | Agregar valores de Tune |
+| Gráficas de Python | Agregar resultados reales |
+| Comparación entre plataformas | Completar con evidencias |
+
+## Conclusiones
+
+El modelo musculoesquelético permite estudiar el efecto de la elasticidad y el amortiguamiento sobre una respuesta dinámica mediante una representación mecánica y su analogía eléctrica. El procedimiento por superposición desarrollado en el análisis conduce a una función de transferencia de primer orden para la fuerza equivalente, con polos negativos en las dos condiciones estudiadas. El aumento de R produce una respuesta temporal más lenta en ese modelo, sin modificar su ganancia estática. La implementación en Simulink, Simscape y Python permitirá comprobar estas predicciones y estudiar el efecto de un controlador PID; para establecer conclusiones experimentales o de simulación definitivas es necesario incorporar las gráficas y las ganancias obtenidas.
+
+
 ## Lista de archivos incluidos en el repositorio
 
 1. Cuaderno computacional de MATLAB \[.mlx].
