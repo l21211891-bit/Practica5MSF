@@ -1,5 +1,5 @@
 [![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=l21211891-bit/Practica5MSF)
-# Práctica: Sistema musculoesquelético
+# Práctica 5.5: Sistema musculoesquelético
 
 ## Información del estudiante
 Africa Montserrat Rodriguez Garcia[l21211891]; L21211891@tectijuama.edu.mx
