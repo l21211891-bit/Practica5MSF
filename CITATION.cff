@@ -1,0 +1,20 @@
+
+cff-version: 1.2.0
+message: "Si utilizas este repositorio, por favor cítalo."
+type: software
+
+title: "Práctica 5: Modelado de Sistemas Fisiológicos"
+
+authors:
+  - family-names: "Rodriguez Garcia"
+    given-names: "Africa Montserrat"
+
+repository-code: "https://github.com/l21211891-bit/Practica5MSF"
+
+url: "https://github.com/l21211891-bit/Practica5MSF"
+
+date-released: 2026-11-04
+
+version: "1.0.0"
+
+license: "MIT"
