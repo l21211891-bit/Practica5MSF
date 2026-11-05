@@ -35,6 +35,11 @@ El término F0 representa la fuerza desarrollada por el elemento contráctil act
 La configuración paralela se realiza para considerar las restricciones mecánicas impuestas a los componentes del modelo. Si el resorte Cp se estira en una longitud incremental x(t), toda la combinación en serie de R y Cs también se extenderá en la misma longitud. Además, la suma de la fuerza transmitida a través de las dos ramas de la configuración paralela debe ser igual a F(t). Aunque la suma de las extensiones de Cs y R tendrá que ser igual a x(t), las contribuciones individuales de longitud de Cs y R no necesitan ser iguales. Por lo tanto, si se asume que C\_{s} se estira una longitud x₁(t), entonces la extensión en la combinación paralela de R y F0 será x(t)-x₁(t). La velocidad con la que se extiende el amortiguador representado por R se obtiene al derivar x(t) - x1(t) con respecto al tiempo, es decir, d\[x(t) - x1(t)] /dt.
 
 Palabras clave: Sistema musculoesqueletico; Circuito RC; Controlador PI; Modelo matematico; Simulaciones numericas 
+## Modelo del sistema musculoesquelético
+
+![Sistema musculoesquelético](Sistema%20Muscoloesquelitico.png)
+
+*Figura 1. Modelo del sistema musculoesquelético en condición de control y con lesión de fibras musculares. Elaborado en BioRender.*
 
 ## Formulación matemática y análisis por superposición
 
